@@ -16,8 +16,8 @@ def upload_dim_users():
     table_list = db.list_db_tables(engine)
     df_name = table_list[1]
     df = dc.clean_user_data(de.read_rds_table(engine, df_name))
-    show(df)
-    print(df.head())
+    #show(df)
+    #print(df.head())
     
     cred_local   = db.read_db_creds("local_details.yaml") 
     print(cred_local)
@@ -31,13 +31,12 @@ def upload_card_details():
     de = DataExtractor()
     db = DatabaseConnector()
     dc = DataCleaning()    
-    file_path = 'dmitry@pc-11-251/Downloads/cards.csv' 
-    df = pd.read_csv(file_path)
+    df = pd.read_csv('cards.csv')
     #df = de.retrieve_pdf_data('https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf')
     print(df.head())
     print(df.info())
-    df = dc.clean_card_data(de.read_rds_table(engine,df))
-
+    df = dc.clean_card_data(df)
+    show(df)
     cred = db.read_db_creds('local_details.yaml')
     engine = db.init_db_engine(cred)
     engine.connect()

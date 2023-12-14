@@ -28,6 +28,7 @@ class DataCleaning:
         df['card_number'] = df['card_number'].apply(str)
         df['card_number'] = df['card_number'].str.replace('?','')
         df = self.clean_invalid_date(df,'date_payment_confirmed')  
+        df.drop(columns='Unnamed: 0',inplace=True)
         df.dropna(how='any',inplace= True)
         return df
 
@@ -78,3 +79,6 @@ class DataCleaning:
     def get_grams(self,value):
         value = str(value)
         value = value.replace('.',)
+
+    def remove_char_from_string(self,value):
+        return re.sub(r'\D', '',value)

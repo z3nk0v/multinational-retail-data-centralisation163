@@ -3,13 +3,13 @@ from database_utils  import DatabaseConnector
 from data_extraction import DataExtractor 
 from data_cleaning   import DataCleaning
 from pandasgui import show
+import requests
 
+de = DataExtractor()
+db = DatabaseConnector()
+dc = DataCleaning() 
 
 def upload_dim_users():
-    de = DataExtractor()
-    db = DatabaseConnector()
-    dc = DataCleaning()    
-
     cred = db.read_db_creds('db_creds.yaml')
     engine = db.init_db_engine(cred)
     engine.connect()
@@ -27,49 +27,59 @@ def upload_dim_users():
     print(sql_engine)
 upload_dim_users()
 
-def upload_card_details():
-    de = DataExtractor()
-    db = DatabaseConnector()
-    dc = DataCleaning()    
+def upload_dim_card_details():
     df = pd.read_csv('cards.csv')
     #df = de.retrieve_pdf_data('https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf')
     print(df.head())
     print(df.info())
     df = dc.clean_card_data(df)
-    show(df)
+    #show(df)
     cred = db.read_db_creds('local_details.yaml')
     engine = db.init_db_engine(cred)
     engine.connect()
     db.upload_to_db(df,'dim_card_details', engine)
     print(engine)
-upload_card_details()
+upload_dim_card_details()
+
+
+def upload_dim_store_details():
+    df = de.retrieve_stores_data()
+    df = dc.clean_store_data(df)
+    df = df.reset_index(drop=True)
+    print(df)
+    cred = db.read_db_creds('local_details.yaml')
+    engine = db.init_db_engine(cred)
+    engine.connect()
+    db.upload_to_db(df,'dim_store_details', engine)
+    print(engine)
+dim_store = upload_dim_store_details()
 
 
 
 
 
-# def upload_dim_store_details():
-#     de = DataExtractor()
-#     db = DatabaseConnector()
-#     dc = DataCleaning()  
-#     # get data
-#     df = de.retrieve_stores_data()
-#     print(df[df['store_code']=='WEB-1388012W'])
-#     df.to_csv('dim_store_details.csv')
-#     # clean data 
-#     df = dc.called_clean_store_data(df)
-#     # upload to db 
-#     cred   = db.read_db_creds("local_details.yaml") 
+
+
+
+
+
+
+
+
+
+
+# def upload_dim_products():
+#     cred = db.read_db_creds('local_details.yaml')
 #     engine = db.init_db_engine(cred)
 #     engine.connect()
-#     db.upload_to_db(df,'dim_store_details',engine)
+#     db.upload_to_db(df,'dim_products', engine)
 #     print(engine)
 
 
+
+
+
 # def upload_dim_products(self,df):
-#     de = DataExtractor()
-#     db = DatabaseConnector()
-#     dc = DataCleaning()  
 
 #     df = de.extract_from_s3()
 

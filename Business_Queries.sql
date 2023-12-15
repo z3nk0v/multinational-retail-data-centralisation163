@@ -91,3 +91,34 @@ ORDER BY    sum(orders_table.product_quantity*dim_products.product_price)  ASC;
 
 select dim_date_times.year
 lead(year, )
+
+
+-- Task 9. How quickly is the company making sales?
+WITH all_orders_by_time AS (
+SELECT
+    year,
+    TO_TIMESTAMP(year || '-' || month || '-' || day || ' ' || timestamp, 'YYYY-MM-DD HH24:MI:SS') AS timestamp
+FROM
+    orders_table AS ot
+INNER JOIN
+    dim_date_times AS ddt ON ot.date_uuid = ddt.date_uuid
+ORDER BY
+    timestamp
+), lead_table AS (
+SELECT
+    year,
+    timestamp,
+    LEAD(timestamp) OVER (ORDER BY timestamp) AS next
+FROM
+    all_orders_by_time
+)
+SELECT
+    year,
+    AVG(next - timestamp) AS actual_time_taken
+FROM
+    lead_table
+GROUP BY
+    year
+ORDER BY
+    actual_time_taken DESC
+LIMIT 5;

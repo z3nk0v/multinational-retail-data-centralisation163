@@ -36,7 +36,24 @@ The changes made to each tables can be seen within the Database_Schema sql file
 
 Milestone 4: Querying the Data
 Here I used SQL queries in order to find out specific business information such as how many stores were in each location, which months were most successful etc 
-These queries can be found within the 
+These queries were the following queries answered and can be found under 'business Queries'
+How many stores does the business have and in which countries?
+
+Which locations currently have the most stores?
+
+Which months produce the most sales typically?
+
+How many sales are coming from online?
+
+What percentage of sales come through each type of store?
+
+Which month in each year produced the most sales?
+
+What is our staff headcount?
+
+Which German store type is selling the most?
+
+How quickly is the company making sales?
 
 Installation instructions
 In order for this project to run the following modules require to be installed:
@@ -60,7 +77,27 @@ Data Utils. In "database_utils.py" We write DatabaseConnector class "database_ut
 "main.py" contains methods, which allow uploading data directly into the local database.
 
 File structure of the project
-The tasks for milestone 
 
+DATA Sources 
+
+AWS RDS Database
+Source Data: Historical sales and user data stored in an AWS RDS database.
+Extraction Methods: Used methods in data_extraction and database_utils classes.
+Tables: orders_table, dim_users
+
+AWS S3 Bucket
+Source Data: Products data saved as a CSV file in an AWS S3 bucket.
+Extraction Method: Leveraged boto3 for downloading and extraction. This is then turned into a Pandas DataFrame.
+Tables: dim_products, dim_date_times
+
+AWS Link (PDF)
+Source Data: PDF file stored in an AWS S3 bucket.
+Extraction Method: Utilized tabula to read tables from the PDF and convert them into a pandas DataFrame.
+Tables: dim_card_details
+
+RESTful API
+Source Data: Store data retrieved from an API endpoint.
+Extraction Method: HTTP GET requests to the API, then converting to JSON
+Tables: dim_store_details
 
 License information

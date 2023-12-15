@@ -1,7 +1,7 @@
 -- Task 1. Cast the columns of the orders_table to the correct data types.
 Alter Table orders_table
-Alter column date_uuid TYPE UUID,
-Alter column user_uuid TYPE UUID,
+Alter column date_uuid TYPE UUID USING date_uuid::UUID,
+Alter column user_uuid TYPE UUIDUSING user_uuid::UUID,
 Alter column card_number TYPE Varchar(11),
 Alter column store_code TYPE varchar(12),
 Alter column product_code TYPE varchar(11),
@@ -14,7 +14,7 @@ Alter column first_name TYPE VARCHAR(55),
 Alter column last_name TYPE VARCHAR(55),
 Alter column date_of_birth TYPE date,
 Alter column country code TYPE varchar(2),
-Alter column useruuid TYPE uuid,
+Alter column useruuid TYPE uuid USING user_uuid::UUID,
 Alter column join_date TYPE date,
 ADD primary key(user_uuid);
 
@@ -23,7 +23,7 @@ Alter Table dim_store_details
 Alter column longitude TYPE float,
 Alter column locality TYPE VARCHAR(255),
 Alter column store_code TYPE  Varchar(12)
-Alter column staff_numbers TYPE small int,
+Alter column staff_numbers TYPE small int USING staff_numbers::SMALLINT,
 Alter column opening_date TYPE date,
 Alter column store_type TYPE VARCHAR(255),
 ALTER COLUmn store_type DROP NOT NULL,
@@ -47,31 +47,31 @@ SET weight_class =
 -- Task 5. Update the dim_products table with the required data types.
 Alter Table dim_products
 RENAME removed TO still_available;
-Alter column product_price TYPE FLOAT  
-Alter column weight TYPE FLOAT
-Alter column EAN TYPE VARCHAR(17)
-Alter column product_code TYPE VARCHAR(11)
-Alter column date_added TYPE DATE
-Alter column uuid TYPE UUID
+Alter column product_price TYPE FLOAT,  
+Alter column weight TYPE FLOAT,
+Alter column EAN TYPE VARCHAR(17),
+Alter column product_code TYPE VARCHAR(11),
+Alter column date_added TYPE DATE date_uuid::UUID,
+Alter column uuid TYPE UUID,
 Alter column still_available TYPE BOOL CASE still_available WHEN 'Still_avaliable' THEN TRUE ELSE FALSE END,
 ADD PRIMARY KEY (product_code);
 
 -- Task 6. Update the dim_date_times table.
 dim users table:
 Alter Table dim_users_table
-Alter column first_name TYPE VARCHAR(55)
-Alter column last_name TYPE VARCHAR(55)
-Alter column date_of_birth TYPE date
-Alter column country code TYPE varchar(2)
-Alter column useruuid TYPE uuid
-Alter column join_date TYPE date
+Alter column first_name TYPE VARCHAR(55),
+Alter column last_name TYPE VARCHAR(55),,
+Alter column date_of_birth TYPE date,
+Alter column country code TYPE varchar(2),
+Alter column useruuid TYPE uuid,
+Alter column join_date TYPE date,
 ADD PRIMARY KEY (date_uuid);
 
 -- Task 7. Update the dim_card_details table
 alter table dim_card_details
-alter column card_number type varchar(19)
-alter column expiry_date type varchar(5)
-alter column date_confirmed_payment type date
+alter column card_number type varchar(19),
+alter column expiry_date type varchar(5),
+alter column date_confirmed_payment type date.
 ADD PRIMARY KEY (card_number);
 -- Task 8. Create the primary keys in the dimension table
 -- Task 9. Add foreign keys to the orders table
